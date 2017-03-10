@@ -34,4 +34,4 @@ fi
 
 
 # Run mysqld
-exec mysqld
+exec mysqld --server-id=$(expr ${SERVER_ID_BASE:-100} + $(echo $HOSTNAME|sed 's/mysql-//'))
