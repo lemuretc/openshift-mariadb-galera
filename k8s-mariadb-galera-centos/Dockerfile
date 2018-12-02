@@ -1,6 +1,6 @@
 FROM centos:7
 MAINTAINER adfinis-sygroup.ch <info@adfinis-sygroup.ch>
-#Date: Fri Sep 14 09:17:21 CEST 2018
+#Date: Sun Dec  2 04:46:22 CET 2018
 LABEL io.k8s.description="MariaDB is a multi-user, multi-threaded SQL database server" \
       io.k8s.display-name="MariaDB 10.1" \
       io.openshift.expose-services="3306:mysql" \
@@ -19,6 +19,7 @@ RUN rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB && \
       which \
       socat \
       percona-xtrabackup \
+      MariaDB-backup \
       bind-utils \
       policycoreutils && \
 	yum update -y && \
