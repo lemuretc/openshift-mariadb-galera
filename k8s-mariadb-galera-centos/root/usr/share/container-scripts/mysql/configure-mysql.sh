@@ -52,9 +52,10 @@ fi
 
 # add users require for Galera
 # TODO: make them somehow configurable
+# MariaBackup requires PROCESS too: https://mariadb.com/kb/en/library/mariabackup-overview/
 "${mysql[@]}" <<-EOSQL
 CREATE USER 'xtrabackup_sst'@'localhost' IDENTIFIED BY 'xtrabackup_sst' ;
-GRANT RELOAD, LOCK TABLES, REPLICATION CLIENT ON *.* TO 'xtrabackup_sst'@'localhost' ;
+GRANT PROCESS, RELOAD, LOCK TABLES, REPLICATION CLIENT ON *.* TO 'xtrabackup_sst'@'localhost' ;
 CREATE USER 'readinessProbe'@'localhost' IDENTIFIED BY 'readinessProbe';
 EOSQL
 
