@@ -32,6 +32,17 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
 	${CONTAINER_SCRIPTS_DIR}/configure-mysql.sh
 fi
 
+# for non-empty datadir, but no grastate.dat run mysqld --wsrep_recover
+[ "$(ls -A /var/lib/mysql)" -a ! -f /var/lib/mysql/grastate.dat ] && {
+	mysqld --wsrep_recover
+	exit
+}
+
+# wait for dns to be able to resolve starting container, otherwise IST or SST will fail!
+until nslookup $(hostname -f)
+do
+	sleep 2
+done
 
 # Run mysqld
-exec mysqld --server-id=$(expr ${SERVER_ID_BASE:-100} + $(echo $HOSTNAME|sed 's/mysql-//'))
+exec mysqld --server-id=${SERVER_ID_BASE:-0} --gtid-domain-id=$(echo $HOSTNAME|sed 's/mysql-//')
