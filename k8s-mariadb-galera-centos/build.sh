@@ -29,7 +29,7 @@ echo -e "\nbuilding $REPO/$IMAGE:$TAG\n"
 }
 
 # repo build
-docker build --no-cache -t $REPO/$IMAGE:$TAG .
+docker build -t $REPO/$IMAGE:$TAG .
 docker tag $REPO/$IMAGE:$TAG $REPO/$IMAGE:latest
 docker push $REPO/$IMAGE:$TAG
 docker push $REPO/$IMAGE:latest
