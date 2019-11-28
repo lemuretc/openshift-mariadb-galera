@@ -1,8 +1,8 @@
 FROM centos:7
 MAINTAINER adfinis-sygroup.ch <info@adfinis-sygroup.ch>
-#Date: Tue Jun 18 08:24:16 CEST 2019
+#Date: Sun Jul 28 10:00:23 CEST 2019
 LABEL io.k8s.description="MariaDB is a multi-user, multi-threaded SQL database server" \
-      io.k8s.display-name="MariaDB 10.3" \
+      io.k8s.display-name="MariaDB 10.4" \
       io.openshift.expose-services="3306:mysql" \
       io.openshift.tags="database,mysql,mariadb10,rh-mariadb10"
 EXPOSE 3306/tcp
@@ -15,7 +15,7 @@ RUN rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB && \
     yum install -y \
       MariaDB-client \
       MariaDB-server \
-      galera \
+      galera-4 \
       which \
       socat \
       MariaDB-backup \

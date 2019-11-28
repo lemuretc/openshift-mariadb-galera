@@ -16,7 +16,7 @@ IMAGE=galera
 # yum does NOT work, as Dockerfile sets USER 27
 YUM="docker run --rm --entrypoint /usr/bin/yum $REPO/$IMAGE"
 test -z "${TAG:=$1}" && {
-	TAG=$(curl https://yum.mariadb.org/10.3/centos7-amd64/rpms/ 2>/dev/null|grep MariaDB-server-10.3|sed -E 's/^.*MariaDB-server-(10.3.[0-9]+).*$/\1/g'|php -r '$vers=file("php://stdin"); usort($vers,"version_compare"); echo implode("",$vers);'|tail -1)
+	TAG=$(curl https://yum.mariadb.org/10.4/centos7-amd64/rpms/ 2>/dev/null|grep MariaDB-server-10.4|sed -E 's/^.*MariaDB-server-(10.4.[0-9]+).*$/\1/g'|php -r '$vers=file("php://stdin"); usort($vers,"version_compare"); echo implode("",$vers);'|tail -1)
 }
 echo -e "\nbuilding $REPO/$IMAGE:$TAG\n"
 
