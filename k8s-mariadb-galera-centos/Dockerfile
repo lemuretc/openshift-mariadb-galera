@@ -1,8 +1,8 @@
 FROM centos:7
 MAINTAINER adfinis-sygroup.ch <info@adfinis-sygroup.ch>
-#Date: Sun Jul 28 10:00:23 CEST 2019
+#Date: Fri Aug  6 16:33:14 CEST 2021
 LABEL io.k8s.description="MariaDB is a multi-user, multi-threaded SQL database server" \
-      io.k8s.display-name="MariaDB 10.4" \
+      io.k8s.display-name="MariaDB 10.5" \
       io.openshift.expose-services="3306:mysql" \
       io.openshift.tags="database,mysql,mariadb10,rh-mariadb10"
 EXPOSE 3306/tcp
