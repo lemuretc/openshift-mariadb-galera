@@ -7,7 +7,8 @@
 set -eox pipefail
 
 echo 'Running mysql_install_db ...'
-mysql_install_db --datadir=/var/lib/mysql
+#mysql_install_db --datadir=/var/lib/mysql
+mysql_install_db
 echo 'Finished mysql_install_db'
 
 mysqld --skip-networking --socket=/var/lib/mysql/mysql-init.sock --wsrep_on=OFF &
