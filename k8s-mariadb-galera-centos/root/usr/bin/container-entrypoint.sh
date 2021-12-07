@@ -15,6 +15,7 @@ EXTRA_DEFAULTS_FILE="/etc/my.cnf.d/galera.cnf"
 if [ -z "$POD_NAMESPACE" ]; then
 	# Single container runs in docker
 	echo "POD_NAMESPACE not set, spin up single node"
+	cp ${CONTAINER_SCRIPTS_DIR}/galera.cnf ${EXTRA_DEFAULTS_FILE}
 else
 	# Is running in Kubernetes/OpenShift, so find all other pods
 	# belonging to the namespace
