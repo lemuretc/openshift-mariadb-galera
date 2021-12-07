@@ -7,8 +7,9 @@
 set -eox pipefail
 
 echo 'Running mysql_install_db ...'
-sleep 9999
-mysql_install_db --datadir=/var/lib/mysql
+#sleep 9999
+#mysql_install_db --datadir=/var/lib/mysql
+mysql_install_db --defaults-file=/etc/my.cnf.d/galera.cnf --datadir=/var/lib/mysql
 echo 'Finished mysql_install_db'
 
 mysqld --skip-networking --socket=/var/lib/mysql/mysql-init.sock --wsrep_on=OFF &
