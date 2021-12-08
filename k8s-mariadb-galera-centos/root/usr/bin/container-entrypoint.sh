@@ -40,10 +40,10 @@ fi
 #}
 
 # wait for dns to be able to resolve starting container, otherwise IST or SST will fail!
-until nslookup $(hostname -f)
-do
-	sleep 2
-done
+#until nslookup $(hostname -f)
+#do
+#	sleep 2
+#done
 
 # Run mysqld
 exec mysqld --server-id=${SERVER_ID_BASE:-1} \
