@@ -50,7 +50,7 @@ fi
 #done
 
 # Run mysqld
-exec mysqld --wsrep-new-cluster --server-id=${SERVER_ID_BASE:-1} \
+exec mysqld --server-id=${SERVER_ID_BASE:-1} \
 	--gtid-domain-id=$((${GTID_DOMAIN_ID_BASE:-0} + $(echo $HOSTNAME | grep -e '^mysql-[0-9]$' >/dev/null && echo $HOSTNAME | sed 's/mysql-//' || echo 0))) \
 	--auto-increment-offset=$((${SERVER_ID_BASE:-1} + $(echo $HOSTNAME | grep -e '^mysql-[0-9]$' >/dev/null && echo $HOSTNAME | sed 's/mysql-//' || echo 0))) \
 	"$@"
