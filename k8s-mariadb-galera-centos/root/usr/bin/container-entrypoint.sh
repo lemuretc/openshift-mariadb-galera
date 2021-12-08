@@ -23,7 +23,9 @@ else
 	K8S_SVC_NAME=$(hostname -f | cut -d"." -f2)
 	echo "Using service name: ${K8S_SVC_NAME}"
 	cp ${CONTAINER_SCRIPTS_DIR}/galera.cnf ${EXTRA_DEFAULTS_FILE}
-	/usr/bin/peer-finder -on-start="${CONTAINER_SCRIPTS_DIR}/configure-galera.sh" -service=${K8S_SVC_NAME}
+	
+	#Peer finder not working yet
+	#/usr/bin/peer-finder -on-start="${CONTAINER_SCRIPTS_DIR}/configure-galera.sh" -service=${K8S_SVC_NAME}
 fi
 
 
