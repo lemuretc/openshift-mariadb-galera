@@ -29,21 +29,24 @@ function join {
 
 HOSTNAME=$(hostname)
 # Parse out cluster name, from service name:
-CLUSTER_NAME="$(hostname -f | cut -d'.' -f2)"
+#CLUSTER_NAME="$(hostname -f | cut -d'.' -f2)"
+#Cluster_name should be a variable defined in the Deployment Env.Vars
+#WSREP_CLUSTER_ADDRESS - For sumariner case - cluster1.galera.etherpad.svc.clusterset.local,cluster2.galera.etherpad.svc.clusterset.local
 
-while read -ra LINE; do
-    if [[ "${LINE}" == *"${HOSTNAME}"* ]]; then
-        MY_NAME=$LINE
-    fi
-    PEERS=("${PEERS[@]}" $LINE)
-done
 
-if [ "${#PEERS[@]}" = 1 ]; then
-    WSREP_CLUSTER_ADDRESS=""
-else
-    WSREP_CLUSTER_ADDRESS=$(join , "${PEERS[@]}")
-fi
-sed -i -e "s|^wsrep_node_address=.*$|wsrep_node_address=${MY_NAME}|" ${CFG}
+#while read -ra LINE; do
+#    if [[ "${LINE}" == *"${HOSTNAME}"* ]]; then
+#        MY_NAME=$LINE
+#    fi
+#    PEERS=("${PEERS[@]}" $LINE)
+#done
+
+#if [ "${#PEERS[@]}" = 1 ]; then
+#    WSREP_CLUSTER_ADDRESS=""
+#else
+#    WSREP_CLUSTER_ADDRESS=$(join , "${PEERS[@]}")
+#fi
+sed -i -e "s|^wsrep_node_address=.*$|wsrep_node_address=${HOSTNAME}|" ${CFG}
 sed -i -e "s|^wsrep_cluster_name=.*$|wsrep_cluster_name=${CLUSTER_NAME}|" ${CFG}
 sed -i -e "s|^wsrep_cluster_address=.*$|wsrep_cluster_address=gcomm://${WSREP_CLUSTER_ADDRESS}|" ${CFG}
 
