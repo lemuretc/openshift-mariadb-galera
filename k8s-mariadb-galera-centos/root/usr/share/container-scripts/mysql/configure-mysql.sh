@@ -14,7 +14,7 @@ mysql_install_db --defaults-file=/etc/my.cnf.d/galera.cnf --datadir=/var/lib/mys
 echo 'Finished mysql_install_db'
 
 #First cluster only!
-mysqld --skip-networking --socket=/var/lib/mysql/mysql-init.sock --wsrep_on=OFF --wsrep-new-cluster &
+mysqld --skip-networking --socket=/var/lib/mysql/mysql-init.sock --wsrep_on=OFF &
 
 #Second cluster is different 
 #mysqld --skip-networking --socket=/var/lib/mysql/mysql-init.sock --wsrep_on=OFF &
