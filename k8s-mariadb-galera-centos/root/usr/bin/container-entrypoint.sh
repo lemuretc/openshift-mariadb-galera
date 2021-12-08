@@ -26,6 +26,8 @@ else
 	
 	#Peer finder not working yet
 	#/usr/bin/peer-finder -on-start="${CONTAINER_SCRIPTS_DIR}/configure-galera.sh" -service=${K8S_SVC_NAME}
+	#Direct call instead
+	${CONTAINER_SCRIPTS_DIR}/configure-galera.sh
 fi
 
 
