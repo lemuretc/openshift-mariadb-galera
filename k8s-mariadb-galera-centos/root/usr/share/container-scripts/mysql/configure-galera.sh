@@ -33,7 +33,6 @@ HOSTNAME=$(hostname -i)
 #CLUSTER_NAME="$(hostname -f | cut -d'.' -f2)"
 #Cluster_name should be a variable defined in the Deployment Env.Vars
 #WSREP_CLUSTER_ADDRESS - For sumariner case - cluster1.galera.etherpad.svc.clusterset.local,cluster2.galera.etherpad.svc.clusterset.local
-IN="cluster1.galera.etherpad.svc.clusterset.local,cluster2.galera.etherpad.svc.clusterset.local"
 
 waitLoop=1
 peersChecked="Initial"
