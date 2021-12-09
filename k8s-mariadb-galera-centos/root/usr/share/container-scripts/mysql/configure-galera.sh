@@ -44,14 +44,14 @@ do
    peersChecked="Yes"
    for i in "${ADDR[@]}"; do
      if resp=$(socat - tcp4:"$i":4455); then
-       echo "yes"
-       WSREP_CLUSTER_ADDRESS_IP=$(join , "${resp}")
+       echo "yes $i = $resp"
+       WSREP_CLUSTER_ADDRESS_IP+=($resp)
      else
        echo "Waiting for $i"
        peersChecked="No"
      fi
    done
-   
+
    if [ $peersChecked == "Yes" ]; then
      waitLoop=999
      echo "Peers Ready"
@@ -61,7 +61,10 @@ do
 done
 
 #make it visible globally
-export $WSREP_CLUSTER_ADDRESS_IP
+printf -v joined '%s,' "${WSREP_CLUSTER_ADDRESS_IP[@]}"
+#echo "${joined%,}"
+export WSREP_CLUSTER_ADDRESS_IP=$(echo "${joined%,}")
+echo $WSREP_CLUSTER_ADDRESS_IP
 
 sed -i -e "s|^wsrep_node_address=.*$|wsrep_node_address=${HOSTNAME}|" ${CFG}
 sed -i -e "s|^wsrep_cluster_name=.*$|wsrep_cluster_name=${CLUSTER_NAME}|" ${CFG}
