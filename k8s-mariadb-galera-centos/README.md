@@ -31,11 +31,5 @@
 
 
 ## peer-finder
-- `peer-finder` is a go binary which finds all pods of a service. The source
-   can be found here:
-   https://github.com/kubernetes/contrib/blob/master/pets/peer-finder/
-- It can be compiled like this:
-```bash
-$ go get -v
-$ CGO_ENABLED=0 go build -a -installsuffix cgo --ldflags '-w' ./peer-finder.go
-```
+for Galera Cluster to start we used a simple logic. When container start it exposes POD IP address. Unfortinately Galera did not work properly with DNS names. So finding the POD IP address was an important step. Each POD broadcasts the IP and at the same time trying to find Peers. Using variable `WSREP_CLUSTER_ADDRESS` bash script trying to reachout to each service and resolve POD IP instead of Service IP. When it is done master is elected by the minimal IP address.
+This logic is not great but it is sufficient for the DEMO. if POD is down it may not notify others. classical split brain issue, etc. in real life you need to handle all possible combinations.
