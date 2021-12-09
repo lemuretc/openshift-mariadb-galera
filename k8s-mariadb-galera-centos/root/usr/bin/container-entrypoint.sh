@@ -11,6 +11,10 @@ set -x
 CONTAINER_SCRIPTS_DIR="/usr/share/container-scripts/mysql"
 EXTRA_DEFAULTS_FILE="/etc/my.cnf.d/galera.cnf"
 
+#Start tcp server, send current pod IP address 
+#The this is used to find Peers across clusters via the sumariner exposed services
+socat -vv tcp4-listen:4455,fork system:"echo $(hostname -i)" &
+
 # Check if the container runs in Kubernetes/OpenShift
 if [ -z "$POD_NAMESPACE" ]; then
 	# Single container runs in docker
