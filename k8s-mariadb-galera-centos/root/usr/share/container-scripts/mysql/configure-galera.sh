@@ -27,28 +27,46 @@ function join {
     local IFS="$1"; shift; echo "$*";
 }
 
-HOSTNAME=$(hostname)
+#use IP address of the current pod
+HOSTNAME=$(hostname -i)
 # Parse out cluster name, from service name:
 #CLUSTER_NAME="$(hostname -f | cut -d'.' -f2)"
 #Cluster_name should be a variable defined in the Deployment Env.Vars
 #WSREP_CLUSTER_ADDRESS - For sumariner case - cluster1.galera.etherpad.svc.clusterset.local,cluster2.galera.etherpad.svc.clusterset.local
+IN="cluster1.galera.etherpad.svc.clusterset.local,cluster2.galera.etherpad.svc.clusterset.local"
 
+waitLoop=1
+peersChecked="Initial"
 
-#while read -ra LINE; do
-#    if [[ "${LINE}" == *"${HOSTNAME}"* ]]; then
-#        MY_NAME=$LINE
-#    fi
-#    PEERS=("${PEERS[@]}" $LINE)
-#done
+while [ $waitLoop -le 50 ]
+do
+   IFS=',' read -ra ADDR <<< "$WSREP_CLUSTER_ADDRESS"
 
-#if [ "${#PEERS[@]}" = 1 ]; then
-#    WSREP_CLUSTER_ADDRESS=""
-#else
-#    WSREP_CLUSTER_ADDRESS=$(join , "${PEERS[@]}")
-#fi
+   peersChecked="Yes"
+   for i in "${ADDR[@]}"; do
+     if resp=$(socat - tcp4:"$i":4455); then
+       echo "yes"
+       WSREP_CLUSTER_ADDRESS_IP=$(join , "${resp}")
+     else
+       echo "Waiting for $i"
+       peersChecked="No"
+     fi
+   done
+   
+   if [ $peersChecked == "Yes" ]; then
+     waitLoop=999
+     echo "Peers Ready"
+   fi
+   waitLoop=$(( $waitLoop + 1 ))
+   echo "Waiting loop: $waitLoop ........ "
+done
+
+#make it visible globally
+export $WSREP_CLUSTER_ADDRESS_IP
+
 sed -i -e "s|^wsrep_node_address=.*$|wsrep_node_address=${HOSTNAME}|" ${CFG}
 sed -i -e "s|^wsrep_cluster_name=.*$|wsrep_cluster_name=${CLUSTER_NAME}|" ${CFG}
-sed -i -e "s|^wsrep_cluster_address=.*$|wsrep_cluster_address=gcomm://${WSREP_CLUSTER_ADDRESS}|" ${CFG}
+sed -i -e "s|^wsrep_cluster_address=.*$|wsrep_cluster_address=gcomm://${WSREP_CLUSTER_ADDRESS_IP}|" ${CFG}
 
 # don't need a restart, we're just writing the conf in case there's an
 # unexpected restart on the node.
