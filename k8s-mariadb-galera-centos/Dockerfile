@@ -7,6 +7,7 @@ LABEL io.k8s.description="MariaDB is a multi-user, multi-threaded SQL database s
       io.openshift.tags="database,mysql,mariadb10,rh-mariadb10"
 EXPOSE 3306/tcp
 EXPOSE 4444/tcp
+EXPOSE 4455/tcp
 EXPOSE 4567/tcp
 EXPOSE 4568/tcp
 EXPOSE 4568/udp
