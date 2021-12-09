@@ -61,6 +61,10 @@ do
 done
 
 #make it visible globally
+#Elect leader by sorting list of pods IP. minimal IP pod will be the leader
+export LEADER_IP=$(echo "${WSREP_CLUSTER_ADDRESS_IP[@]}" | tr -s ' ' '\n' | sort | head -1)
+echo "Elected leader IP: $LEADER_IP"
+
 printf -v joined '%s,' "${WSREP_CLUSTER_ADDRESS_IP[@]}"
 #echo "${joined%,}"
 export WSREP_CLUSTER_ADDRESS_IP=$(echo "${joined%,}")
