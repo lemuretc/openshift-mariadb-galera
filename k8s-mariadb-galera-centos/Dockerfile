@@ -1,11 +1,15 @@
 FROM centos:7
-MAINTAINER adfinis-sygroup.ch <info@adfinis-sygroup.ch>
-#Date: Fri Aug  6 16:33:14 CEST 2021
+MAINTAINER lemuretc <lemuretc@gmail.com>
+
 LABEL io.k8s.description="MariaDB is a multi-user, multi-threaded SQL database server" \
       io.k8s.display-name="MariaDB 10.5" \
       io.openshift.expose-services="3306:mysql" \
       io.openshift.tags="database,mysql,mariadb10,rh-mariadb10"
 EXPOSE 3306/tcp
+EXPOSE 4444/tcp
+EXPOSE 4567/tcp
+EXPOSE 4568/tcp
+EXPOSE 4568/udp
 
 COPY root/etc/yum.repos.d/mariadb.repo /etc/yum.repos.d/
 
