@@ -1,0 +1,17 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  annotations:
+    app.openshift.io/vcs-ref: ''
+    app.openshift.io/vcs-uri: 'https://github.com/lemuretc/openshift-mariadb-galera.git'
+  name: galera
+  generation: 1
+  labels:
+    app: galera
+    app.kubernetes.io/component: galera
+    app.kubernetes.io/instance: galera
+    app.kubernetes.io/name: galera
+    app.kubernetes.io/part-of: galera
+spec:
+  lookupPolicy:
+    local: false

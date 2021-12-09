@@ -1,0 +1,43 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  annotations:
+    app.openshift.io/vcs-ref: ''
+    app.openshift.io/vcs-uri: 'https://github.com/lemuretc/openshift-mariadb-galera.git'
+  name: galera
+  labels:
+    app: galera
+    app.kubernetes.io/component: galera
+    app.kubernetes.io/instance: galera
+    app.kubernetes.io/name: galera
+    app.kubernetes.io/part-of: galera
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'galera:latest'
+  resources: {}
+  successfulBuildsHistoryLimit: 3
+  failedBuildsHistoryLimit: 3
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile
+  postCommit: {}
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/lemuretc/openshift-mariadb-galera.git'
+    contextDir: k8s-mariadb-galera-centos
+  triggers:
+    - type: Generic
+      generic:
+        secretReference:
+          name: galera-generic-webhook-secret
+    - type: GitHub
+      github:
+        secretReference:
+          name: galera-github-webhook-secret
+    - type: ConfigChange
+  runPolicy: Serial

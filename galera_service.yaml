@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: galera
+  name: galera
+spec:
+  ports:
+    - name: 3306-tcp
+      protocol: TCP
+      port: 3306
+      targetPort: 3306
+    - name: 4444-tcp
+      protocol: TCP
+      port: 4444
+      targetPort: 4444
+    - name: 4455-tcp
+      protocol: TCP
+      port: 4455
+      targetPort: 4455
+    - name: 4567-tcp
+      protocol: TCP
+      port: 4567
+      targetPort: 4567
+    - name: 4568-tcp
+      protocol: TCP
+      port: 4568
+      targetPort: 4568
+    - name: 4567-udp
+      protocol: UDP
+      port: 4567
+      targetPort: 4567
+  selector:
+    app: galera

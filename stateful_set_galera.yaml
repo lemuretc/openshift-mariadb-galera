@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: galera
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: galera
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: galera
+        deploymentconfig: galera
+    spec:
+      containers:
+        - name: galera
+          image: >-
+            image-registry.openshift-image-registry.svc:5000/etherpad/galera:latest
+          env:
+            - name: POD_NAMESPACE
+              value: etherpad
+            - name: CLUSTER_NAME
+              value: galera
+            - name: WSREP_CLUSTER_ADDRESS
+              value: >-
+                cluster1.galera.etherpad.svc.clusterset.local,cluster2.galera.etherpad.svc.clusterset.local
+            - name: WSREP_CLUSTER_ADDRESS_old
+              value: galera
+            - name: MYSQL_DATABASE  
+              value: etherpad
+            - name: MYSQL_USER
+              value: ether
+            - name: MYSQL_PASSWORD
+              value: ether
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
