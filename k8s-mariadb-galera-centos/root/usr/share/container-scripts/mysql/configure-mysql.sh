@@ -13,7 +13,7 @@ echo 'Running mysql_install_db ...'
 mysql_install_db --defaults-file=/etc/my.cnf.d/galera.cnf --datadir=/var/lib/mysql --auth-root-authentication-method=normal
 echo 'Finished mysql_install_db'
 
-#mysqld --skip-networking --socket=/var/lib/mysql/mysql-init.sock --wsrep_on=OFF &
+mysqld --skip-networking --socket=/var/lib/mysql/mysql-init.sock --wsrep_on=OFF &
 pid="$!"
 
 mysql=( mysql --protocol=socket -uroot -hlocalhost --socket=/var/lib/mysql/mysql-init.sock )
